@@ -84,6 +84,13 @@ class LinkedList {
     }
 
     clear() {
+        let cursor = this._head;
+
+        for(let i = 0; i < this.length; ++i) {
+            cursor.prev = null;
+            cursor = cursor.next;
+        }
+
         this._head = null;
         this._tail = null;
         this.length = 0;
@@ -116,7 +123,23 @@ class LinkedList {
     }
 
     reverse() {
+        if(this.length <= 1)
+            return this;
+    
+        let cursor = this._head;
         
+        for(let i = 0; i < this.length; ++i) {
+            let t = cursor.next;
+            cursor.next = cursor.prev;
+            cursor.prev = t;
+
+            //go to next whitch is previous now
+            cursor = cursor.prev;
+        }
+    
+        let t = this._head;
+        this._head = this._tail;
+        this._tail = t;
 
         return this;
     }
@@ -133,13 +156,5 @@ class LinkedList {
         return -1;
     }
 }
-
-//toDo clearAll
-const l = new LinkedList();
-l.append(1);
-l.append(2);
-
-console.log( l.head() );
-console.log( l.tail() );
 
 module.exports = LinkedList;
